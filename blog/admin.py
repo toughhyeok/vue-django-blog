@@ -10,7 +10,17 @@ from blog.models import (
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'category', 'tag_list', 'title', 'description', 'image', 'create_dt', 'update_dt', 'like')
+    list_display = (
+        'id',
+        'category',
+        'tag_list',
+        'title',
+        'description',
+        'image',
+        'create_dt',
+        'update_dt',
+        'like'
+    )
 
     def tag_list(self, obj):
         return ','.join([t.name for t in obj.tags.all()])

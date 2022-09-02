@@ -1,4 +1,3 @@
-from tkinter import W
 from django.views.generic import TemplateView
 
 
