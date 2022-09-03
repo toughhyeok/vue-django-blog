@@ -1,12 +1,150 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>post_detail.html</title>
-</head>
-<body>
-    this is post_detail.html
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}post_detail.html{% endblock %}
+
+{% block content %}
+<section class="page-section" id="post">
+    <div class="container">
+        <div class="row">
+            <!-- Post title-->
+            <h1 class="fw-bolder mb-1">Welcome to Blog Post!</h1>
+            <hr>
+            <p>
+            <span>2021-06-15 &emsp;</span>
+            <i class="fas fa-copyright"></i> &nbsp;
+            <span>IT &emsp;</span>
+            <i class="fas fa-tag"></i> &nbsp;
+            <span>django python &emsp;</span>
+            <i class="fas fa-heart"></i> &nbsp;
+            <span>5 &emsp;</span>
+            </p>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Post content-->
+                <article>
+                    <!-- Preview image figure-->
+                    <figure class="mb-4"><img class="img-fluid rounded"
+                            src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
+                    <!-- Post content-->
+                    <div class="mb-5">
+                        <p class="fs-5 mb-4">Science is an enterprise that should be cherished as an activity of the
+                            free human mind. Because it transforms who we are, how we live, and it gives us an
+                            understanding of our place in the universe.</p>
+                        <p class="fs-5 mb-4">The universe is large and old, and the ingredients for life as we know it
+                            are everywhere, so there's no reason to think that Earth would be unique in that regard.
+                            Whether of not the life became intelligent is a different question, and we'll see if we find
+                            that.</p>
+                        <p class="fs-5 mb-4">If you get asteroids about a kilometer in size, those are large enough and
+                            carry enough energy into our system to disrupt transportation, communication, the food
+                            chains, and that can be a really bad day on Earth.</p>
+                        <h2 class="fw-bolder mb-4 mt-5">I have odd cosmic thoughts every day</h2>
+                        <p class="fs-5 mb-4">For me, the most fascinating interface is Twitter. I have odd cosmic
+                            thoughts every day and I realized I could hold them to myself or share them with people who
+                            might be interested.</p>
+                        <p class="fs-5 mb-4">Venus has a runaway greenhouse effect. I kind of want to know what happened
+                            there because we're twirling knobs here on Earth without knowing the consequences of it.
+                            Mars once had running water. It's bone dry today. Something bad happened there as well.</p>
+                    </div>
+                </article>
+                <!-- Comments section-->
+                <div class="mb-5">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <!-- Comment form-->
+                            <form class="mb-4"><textarea class="form-control" rows="3"
+                                    placeholder="Join the discussion and leave a comment!"></textarea></form>
+                            <!-- Comment with nested comments-->
+                            <div class="d-flex mb-4">
+                                <!-- Parent comment-->
+                                <div class="flex-shrink-0"><img class="rounded-circle"
+                                        src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold">2022-09-02 14:30:20</div>
+                                    If you're going to lead a space frontier, it has to be government; it'll never be
+                                    private enterprise. Because the space frontier is dangerous, and it's expensive, and
+                                    it has unquantified risks.
+                                </div>
+                            </div>
+                            <!-- Single comment-->
+                            <div class="d-flex">
+                                <div class="flex-shrink-0"><img class="rounded-circle"
+                                        src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold">Commenter Name</div>
+                                    When I look at the universe and all the ways the universe wants to kill us, I find
+                                    it hard to reconcile that with statements of beneficence.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Side widgets-->
+            <div class="col-lg-4">
+                <!-- Categories widget-->
+                <div class="card mb-4">
+                    <div class="card-header">Prev Post</div>
+                    <div class="card-body">
+                        This is previous post title
+                    </div>
+                </div>
+               <!-- Categories widget--> 
+                <div class="card mb-4">
+                    <div class="card-header">Next Post</div>
+                    <div class="card-body">
+                        This is next post title
+                    </div>
+                </div>
+                <!-- Categories widget-->
+                <div class="card mb-4">
+                    <div class="card-header">Tag Cloud</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="#!">Web Design</a></li>
+                                    <li><a href="#!">HTML</a></li>
+                                    <li><a href="#!">Freebies</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="#!">JavaScript</a></li>
+                                    <li><a href="#!">CSS</a></li>
+                                    <li><a href="#!">Tutorials</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Categories widget-->
+                <div class="card mb-4">
+                    <div class="card-header">Categories</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="#!">Web Design</a></li>
+                                    <li><a href="#!">HTML</a></li>
+                                    <li><a href="#!">Freebies</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="#!">JavaScript</a></li>
+                                    <li><a href="#!">CSS</a></li>
+                                    <li><a href="#!">Tutorials</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
