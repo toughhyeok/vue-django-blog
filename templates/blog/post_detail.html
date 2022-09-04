@@ -11,6 +11,10 @@
         height: 300px;
         object-fit: cover;
     }
+    .my-link:hover {
+        cursor: pointer;
+        font-style: italic;
+    }
 </style>
 {% endblock %}
 
@@ -86,14 +90,14 @@
                 <div class="card mb-4">
                     <div class="card-header">Prev Post</div>
                     <div class="card-body">
-                        This is previous post title
+                        <h5 class="text-primary my-link" @click="fetchPostDetail(prevPost.id)">[[ prevPost.title ]]</h5>
                     </div>
                 </div>
                <!-- Categories widget--> 
                 <div class="card mb-4">
                     <div class="card-header">Next Post</div>
                     <div class="card-body">
-                        This is next post title
+                        <h5 class="text-primary my-link" @click="fetchPostDetail(nextPost.id)">[[ nextPost.title ]]</h5>
                     </div>
                 </div>
                 <!-- Categories widget-->
