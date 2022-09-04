@@ -9,13 +9,16 @@
                 post: {},
                 prevPost: {},
                 nextPost: {},
+                cateList: [],
+                tagList: [],
             }
         },
 
         created() {
             console.log("created()...");
-            const postId = location.pathname.split('/')[3]
+            const postId = location.pathname.split('/')[3];
             this.fetchPostDetail(postId);
+            this.fetchCateTagList();
         },
         methods: {
             fetchPostDetail(postId) {
@@ -32,6 +35,27 @@
                         console.log("FETCH POSTDETAIL GET ERR.RESPONSE", err.response);
                         alert(`${err.response.status} ${err.response.statusText}`);
                     });
+            },
+            fetchCateTagList() {
+                console.log("fetchCateTagList()...");
+
+                axios.get('/api/catetag/')
+                    .then(res => {
+                        console.log("FETCH CATE-TAG-LIST GET RES", res);
+                        this.cateList = res.data.cateList;
+                        this.tagList = res.data.tagList;
+                    })
+                    .catch(err => {
+                        console.log("FETCH CATE-TAG-LIST ERR.RESPONSE", err.response);
+                        alert(`${err.response.status} ${err.response.statusText}`);
+                    })
+            },
+            serverPage(category='', tag='') {
+                console.log("serverPage()...", category, tag);
+                if (category && tag) alert(`serverPage() both args Error: ${category} and ${tag}`);
+                else if (category) location.href = `/?category=${category}#portfolio`;
+                else if (tag) location.href = `/?tags=${tag}#portfolio`;
+                else location.href = '#/portfolio'
             }
         }
     }

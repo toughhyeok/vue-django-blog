@@ -11,6 +11,7 @@
         height: 300px;
         object-fit: cover;
     }
+
     .my-link:hover {
         cursor: pointer;
         font-style: italic;
@@ -26,16 +27,16 @@
             <h1 class="fw-bolder mb-1">[[ post.title ]]</h1>
             <hr>
             <p>
-            <span>[[ post.update_dt ]]</span> &emsp;
-            <i class="fas fa-copyright"></i> &nbsp;
-            <span>[[ post.category ]]</span> &emsp;
-            <i class="fas fa-tag"></i> &nbsp;
-            <span v-for="(tag, index) in post.tags" :key="index">
-                <span v-if="index !== 0">,</span>
-                [[ tag ]]
-            </span> &emsp;
-            <i class="fas fa-heart"></i> &nbsp;
-            <span>[[ post.like ]]</span> &emsp;
+                <span>[[ post.update_dt ]]</span> &emsp;
+                <i class="fas fa-copyright"></i> &nbsp;
+                <span class="text-success my-link" @click="serverPage(post.category, '')">[[ post.category ]]</span> &emsp;
+                <i class="fas fa-tag"></i> &nbsp;
+                <span v-for="(tag, index) in post.tags" :key="index">
+                    <span v-if="index !== 0">, </span>
+                    <span class="text-success my-link" @click="serverPage('', tag)">[[ tag ]]</span>
+                </span> &emsp;
+                <i class="fas fa-heart"></i> &nbsp;
+                <span>[[ post.like ]]</span> &emsp;
             </p>
             <hr>
         </div>
@@ -44,8 +45,8 @@
                 <!-- Post content-->
                 <article>
                     <!-- Preview image figure-->
-                    <figure class="mb-4"><img class="img-fluid rounded my-img-h300"
-                            :src="post.image" alt="..." /></figure>
+                    <figure class="mb-4"><img class="img-fluid rounded my-img-h300" :src="post.image" alt="..." />
+                    </figure>
                     <!-- Post content-->
                     <div class="mb-5">
                         <p v-html="post.content" class="fs-5 mb-4"></p>
@@ -93,7 +94,7 @@
                         <h5 class="text-primary my-link" @click="fetchPostDetail(prevPost.id)">[[ prevPost.title ]]</h5>
                     </div>
                 </div>
-               <!-- Categories widget--> 
+                <!-- Categories widget-->
                 <div class="card mb-4">
                     <div class="card-header">Next Post</div>
                     <div class="card-body">
@@ -102,46 +103,22 @@
                 </div>
                 <!-- Categories widget-->
                 <div class="card mb-4">
-                    <div class="card-header">Tag Cloud</div>
+                    <div class="card-header">Categories</div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <ul class="list-unstyled mb-0">
-                                    <li><a href="#!">Web Design</a></li>
-                                    <li><a href="#!">HTML</a></li>
-                                    <li><a href="#!">Freebies</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-6">
-                                <ul class="list-unstyled mb-0">
-                                    <li><a href="#!">JavaScript</a></li>
-                                    <li><a href="#!">CSS</a></li>
-                                    <li><a href="#!">Tutorials</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <span v-for="(category, index) in cateList" :key="category.id">
+                            <span v-if="index !== 0">&emsp;</span>
+                            <span class="text-success my-link" @click="serverPage(category, '')">[[ category ]]</span>
+                        </span>
                     </div>
                 </div>
                 <!-- Categories widget-->
                 <div class="card mb-4">
-                    <div class="card-header">Categories</div>
+                    <div class="card-header">Tag Cloud</div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <ul class="list-unstyled mb-0">
-                                    <li><a href="#!">Web Design</a></li>
-                                    <li><a href="#!">HTML</a></li>
-                                    <li><a href="#!">Freebies</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-6">
-                                <ul class="list-unstyled mb-0">
-                                    <li><a href="#!">JavaScript</a></li>
-                                    <li><a href="#!">CSS</a></li>
-                                    <li><a href="#!">Tutorials</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <span v-for="(tag, index) in tagList" :key="tag.id">
+                            <span v-if="index !== 0">&emsp;</span>
+                            <span class="text-success my-link" @click="serverPage('', tag)">[[ tag ]]</span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -151,5 +128,5 @@
 {% endblock %}
 
 {% block extra-script %}
-    {% include 'include/post_detail_vue.html' %}
+{% include 'include/post_detail_vue.html' %}
 {% endblock %}

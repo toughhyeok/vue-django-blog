@@ -11,4 +11,5 @@ urlpatterns = [
         views.ApiPostDetailView.as_view(),
         name='post_detail'
     ),
+    path('catetag/', views.ApiCateTagListView.as_view(), name='catetag_list'),
 ]
