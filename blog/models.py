@@ -27,6 +27,9 @@ class Post(models.Model):
     update_dt = models.DateTimeField('UPDATE DT', auto_now=True)
     like = models.PositiveSmallIntegerField('LIKE', default=0)
 
+    def __str__(self):
+        return self.title
+
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)

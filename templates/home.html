@@ -28,7 +28,7 @@
                 <span v-if="category" class="h6 font-italic">( Category: [[ category ]] )</span>
                 <span v-if="tag" class="h6 font-italic">( Tag: [[ tag ]] )</span>
             </div>
-            <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+            <h3 class="section-subheading text-muted"></h3>
         </div>
         <div class="row">
             <div v-for="post in postList" :key="post.id" class="col-lg-4 col-sm-6 mb-4">
@@ -41,8 +41,11 @@
                         <img class="img-fluid my-img-h300" :src="post.image" alt="..." />
                     </a>
                     <div class="portfolio-caption">
-                        <div class="portfolio-caption-subheading text-muted">[[ post.category ]]</div>
-                        <div class="portfolio-caption-heading my-post-title">[[ post.title ]]</div>
+                        <div class="portfolio-caption-subheading text-muted">
+                            [[ post.category ]] &emsp;
+                            <i class="fas fa-heart text-danger"></i> [[ post.like ]]
+                        </div>
+                        <div class="portfolio-caption-heading my-post-title" style="font-size: 1.4rem;">[[ post.title ]]</div>
                     </div>
                 </div>
             </div>

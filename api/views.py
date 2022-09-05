@@ -5,6 +5,7 @@ from django.views import View
 
 from api.utils import (
     obj_to_post,
+    obj_to_comment,
     prev_next_post,
 )
 from blog.models import (
@@ -40,10 +41,14 @@ class ApiPostDetailView(BaseDetailView):
         post = obj_to_post(obj)
         prev_post, next_post = prev_next_post(obj)
 
+        qs_comment = obj.comment_set.all()
+        comment_list = [obj_to_comment(obj) for obj in qs_comment]
+
         json_data = {
             'post': post,
             'prevPost': prev_post,
             'nextPost': next_post,
+            'commentList': comment_list,
         }
 
         return JsonResponse(data=json_data, safe=True, status=200)
@@ -62,3 +67,13 @@ class ApiCateTagListView(View):
             'tagList': tag_list,
         }
         return JsonResponse(data=json_data, safe=True, status=200)
+
+
+class ApiPostLikeDetailView(BaseDetailView):
+    model = Post
+
+    def render_to_response(self, context, **response_kwargs):
+        obj = context['object']
+        obj.like += 1
+        obj.save()
+        return JsonResponse(data=obj.like, safe=False, status=200)

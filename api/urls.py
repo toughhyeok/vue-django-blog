@@ -12,4 +12,9 @@ urlpatterns = [
         name='post_detail'
     ),
     path('catetag/', views.ApiCateTagListView.as_view(), name='catetag_list'),
+    path(
+        'like/<int:pk>/',
+        views.ApiPostLikeDetailView.as_view(),
+        name='post_like'
+    ),
 ]
