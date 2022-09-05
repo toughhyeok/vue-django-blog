@@ -15,7 +15,16 @@ from blog.models import (
 
 
 class ApiPostListView(BaseListView):
-    model = Post
+    def get_queryset(self):
+        param_cate = self.request.GET.get('category')
+        param_tag = self.request.GET.get('tag')
+        if param_cate:
+            qs = Post.objects.filter(category__name__iexact=param_cate)
+        elif param_tag:
+            qs = Post.objects.filter(tags__name__iexact=param_tag)
+        else:
+            qs = Post.objects.all()
+        return qs
 
     def render_to_response(self, context, **response_kwargs):
         qs = context['object_list']
