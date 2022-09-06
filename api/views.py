@@ -18,6 +18,8 @@ from blog.models import (
 
 
 class ApiPostListView(BaseListView):
+    paginate_by = 3
+
     def get_queryset(self):
         param_cate = self.request.GET.get('category')
         param_tag = self.request.GET.get('tag')
@@ -32,7 +34,17 @@ class ApiPostListView(BaseListView):
     def render_to_response(self, context, **response_kwargs):
         qs = context['object_list']
         post_list = [obj_to_post(obj, False) for obj in qs]
-        return JsonResponse(data=post_list, safe=False, status=200)
+
+        page_cnt = context['paginator'].num_pages
+        cur_page = context['page_obj'].number
+
+        json_data = {
+            'postList': post_list,
+            'pageCnt': page_cnt,
+            'curPage': cur_page,
+        }
+
+        return JsonResponse(data=json_data, safe=True, status=200)
 
 
 class ApiPostDetailView(BaseDetailView):
