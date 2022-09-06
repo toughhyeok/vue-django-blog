@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.views.generic.edit import BaseCreateView
 from django.views.generic.detail import BaseDetailView
 from django.views.generic.list import BaseListView
 from django.views import View
@@ -9,6 +10,7 @@ from api.utils import (
     prev_next_post,
 )
 from blog.models import (
+    Comment,
     Post,
     Category,
     Tag,
@@ -77,3 +79,16 @@ class ApiPostLikeDetailView(BaseDetailView):
         obj.like += 1
         obj.save()
         return JsonResponse(data=obj.like, safe=False, status=200)
+
+
+class ApiCommentCreateView(BaseCreateView):
+    model = Comment
+    fields = '__all__'
+
+    def form_valid(self, form):
+        self.object = form.save()
+        comment = obj_to_comment(self.object)
+        return JsonResponse(data=comment, safe=True, status=201)
+
+    def form_invalid(self, form):
+        return JsonResponse(data=form.errors, safe=True, status=400)

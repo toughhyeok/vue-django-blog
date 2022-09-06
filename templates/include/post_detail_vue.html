@@ -2,6 +2,9 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
+    axios.defaults.xsrfCookieName = 'csrftoken';
+    axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
+
     const PostDetailApp = {
         delimiters: ['[[', ']]'],
         data() {
@@ -57,7 +60,7 @@
                 if (category && tag) alert(`serverPage() both args Error: ${category} and ${tag}`);
                 else if (category) location.href = `/?category=${category}#portfolio`;
                 else if (tag) location.href = `/?tags=${tag}#portfolio`;
-                else location.href = '#/portfolio'
+                else location.href = '#/portfolio';
             },
             likeCount(postId) {
                 console.log("likeCount()...", postId);
@@ -69,6 +72,24 @@
                         console.log("LIKE-COUNT GET RES ERR.RESPONSE", err.response);
                         alert(`${err.response.status} ${err.response.statusText}`);
                     });
+            },
+            resetForm() {
+                console.log("resetForm()...");
+                this.$refs.commentForm.reset();
+            },
+            submitForm() {
+                console.log("submitForm()...");
+                let formdata = new FormData(document.getElementById('comment-form'));
+                formdata.set('post', this.post.id);
+                axios.post('/api/comment/create/', formdata)
+                    .then(res => {
+                        console.log("CREATE-COMMENT POST RES", res);
+                        this.commentList.push(res.data);
+                    }).catch(err => {
+                        console.log("CREATE-COMMENT RES ERR.RESPONSE", err.response);
+                        alert(`${err.response.status} ${err.response.statusText}`);
+                    });
+                this.resetForm();
             }
         }
     }
