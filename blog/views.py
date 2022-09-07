@@ -1,10 +1,10 @@
 from django.views.generic import DetailView
+
 from api.utils import (
     obj_to_comment,
     obj_to_post,
     prev_next_post
 )
-
 from blog.models import (
     Post,
     Category,

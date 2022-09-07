@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import ListView
 
 from api.utils import obj_to_post
@@ -6,6 +8,7 @@ from blog.models import Post
 import json
 
 
+@method_decorator(ensure_csrf_cookie, name='dispatch')
 class HomeView(ListView):
     model = Post
     template_name = 'home.html'
