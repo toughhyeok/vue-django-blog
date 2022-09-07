@@ -11,9 +11,11 @@
         height: 300px;
         object-fit: cover;
     }
+
     .my-post-title {
         height: 60px;
     }
+
     .my-link:hover {
         cursor: pointer;
     }
@@ -91,5 +93,5 @@
 </footer>
 {% endblock %}
 {% block extra-script %}
-{% include 'include/post_list_vue.html' %}
+    {% include 'include/post_list_vue.html' %}
 {% endblock %}
