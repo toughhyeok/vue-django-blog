@@ -70,11 +70,11 @@ class ApiPostDetailView(BaseDetailView):
 
 class ApiCateTagListView(View):
     def get(self, request, *args, **kwargs):
-        cate_qs = Category.objects.all()
-        tag_qs = Tag.objects.all()
+        qs_cate = Category.objects.all()
+        qs_tag = Tag.objects.all()
 
-        cate_list = [cate.name for cate in cate_qs]
-        tag_list = [tag.name for tag in tag_qs]
+        cate_list = [cate.name for cate in qs_cate]
+        tag_list = [tag.name for tag in qs_tag]
 
         json_data = {
             'cateList': cate_list,
