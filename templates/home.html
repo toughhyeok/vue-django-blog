@@ -5,6 +5,7 @@
 {% block title %}home.html{% endblock %}
 
 {% block extra-style %}
+{{ block.super }}
 <style>
     .my-img-h300 {
         width: 100%;
@@ -93,5 +94,5 @@
 </footer>
 {% endblock %}
 {% block extra-script %}
-    {% include 'include/post_list_vue.html' %}
+{% include 'include/post_list_vue.html' %}
 {% endblock %}
