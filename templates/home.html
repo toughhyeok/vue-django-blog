@@ -61,13 +61,13 @@
                 <div @click="firstPage" class="page-link">First</div>
             </li>
             <li :class="prevClass">
-                <div @click="prevPage" class="page-link">Prev</div>
+                <div @click="prevPage" class="page-link">ᐊ</div>
             </li>
             <li v-for="page in pages" :class="pageClass(page)">
                 <div @click="pageChanged(page)" class="page-link">[[ page ]]</div>
             </li>
             <li :class="nextClass">
-                <div @click="nextPage" class="page-link" href="#">Next</div>
+                <div @click="nextPage" class="page-link" href="#">ᐅ</div>
             </li>
             <li :class="nextClass">
                 <div @click="lastPage" class="page-link" href="#">Last</div>

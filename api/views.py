@@ -19,7 +19,7 @@ class ApiPostListView(BaseListView):
 
     def get_queryset(self):
         param_cate = self.request.GET.get('category')
-        param_tag = self.request.GET.get('tag')
+        param_tag = self.request.GET.get('tags')
         if param_cate:
             qs = Post.objects.filter(category__name__iexact=param_cate)
         elif param_tag:
