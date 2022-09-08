@@ -13,6 +13,4 @@ urlpatterns = [
          name='catetag_list'),
     path('like/<int:pk>/', views.ApiPostLikeDetailView.as_view(),
          name='post_like'),
-    path('comment/create/', views.ApiCommentCreateView.as_view(),
-         name='comment_create'),
 ]

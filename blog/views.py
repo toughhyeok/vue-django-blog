@@ -1,7 +1,6 @@
 from django.views.generic import DetailView
 
 from api.utils import (
-    obj_to_comment,
     obj_to_post,
     prev_next_post
 )
@@ -25,9 +24,6 @@ class PostDetailView(DetailView):
         post = obj_to_post(obj)
         prev_post, next_post = prev_next_post(obj)
 
-        qs_comment = obj.comment_set.all()
-        comment_list = [obj_to_comment(obj) for obj in qs_comment]
-
         qs_cate = Category.objects.all()
         qs_tag = Tag.objects.all()
 
@@ -38,7 +34,6 @@ class PostDetailView(DetailView):
             'post': post,
             'prevPost': prev_post,
             'nextPost': next_post,
-            'commentList': comment_list,
             'cateList': cate_list,
             'tagList': tag_list,
         }

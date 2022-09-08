@@ -58,6 +58,9 @@
         </div>
         <ul class="pagination justify-content-center">
             <li :class="prevClass">
+                <div @click="firstPage" class="page-link">First</div>
+            </li>
+            <li :class="prevClass">
                 <div @click="prevPage" class="page-link">Prev</div>
             </li>
             <li v-for="page in pages" :class="pageClass(page)">
@@ -65,6 +68,9 @@
             </li>
             <li :class="nextClass">
                 <div @click="nextPage" class="page-link" href="#">Next</div>
+            </li>
+            <li :class="nextClass">
+                <div @click="lastPage" class="page-link" href="#">Last</div>
             </li>
         </ul>
     </div>

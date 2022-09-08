@@ -38,18 +38,3 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class Comment(models.Model):
-    post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, blank=True, null=True)
-    content = models.TextField('CONTENT')
-    create_dt = models.DateTimeField('CREAT DT', auto_now_add=True)
-    update_dt = models.DateTimeField('UPDATE DT', auto_now=True)
-
-    @property
-    def short_content(self):
-        return self.content[:10]
-
-    def __str__(self):
-        return self.short_content

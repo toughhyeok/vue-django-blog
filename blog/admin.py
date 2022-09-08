@@ -4,7 +4,6 @@ from blog.models import (
     Post,
     Category,
     Tag,
-    Comment,
 )
 
 
@@ -37,8 +36,3 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
-
-
-@admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'post', 'short_content', 'create_dt', 'update_dt')

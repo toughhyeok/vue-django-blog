@@ -30,25 +30,9 @@ def obj_to_post(obj, flag=True):
 
     del post['_state'], post['category_id'], post['create_dt']
     if not flag:
-        del post['tags'], post['update_dt'], post['description'], post['content'] # noqa
+        del post['tags'], post['update_dt'], post['description'], post['content']  # noqa
 
     return post
-
-
-def obj_to_comment(obj):
-    """
-    comment 객체 serialize 한다.
-    """
-    comment = dict(vars(obj))
-
-    if obj.update_dt:
-        comment['update_dt'] = obj.update_dt.strftime('%Y-%m-%d %H:%M:%S')
-    else:
-        comment['update_dt'] = '9999-12-31 00:00:00'
-
-    del comment['_state'], comment['post_id'], comment['create_dt']
-
-    return comment
 
 
 def prev_next_post(obj):

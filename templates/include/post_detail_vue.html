@@ -2,9 +2,6 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
-    axios.defaults.xsrfCookieName = 'csrftoken';
-    axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
-
     const myJson = JSON.parse('{{ myJson|escapejs }}');
 
     const PostDetailApp = {
@@ -16,7 +13,6 @@
                 nextPost: {},
                 cateList: [],
                 tagList: [],
-                commentList: [],
             }
         },
 
@@ -25,9 +21,20 @@
             this.post = myJson.post;
             this.prevPost = myJson.prevPost;
             this.nextPost = myJson.nextPost;
-            this.commentList = myJson.commentList;
             this.cateList = myJson.cateList;
             this.tagList = myJson.tagList;
+        },
+        mounted() {
+            console.log("mounted()...");
+            let script = document.createElement("script");
+            script.setAttribute("src", "https://utteranc.es/client.js");
+            script.setAttribute("issue-term", "pathname");
+            script.setAttribute("repo", "toughhyeok/share-blog-comment");
+            script.setAttribute("theme", "github-light");
+            script.setAttribute("crossorigin", "anonymous");
+            script.async = true;
+            const element = document.getElementById("utte-comment");
+            element.appendChild(script);
         },
         methods: {
             fetchPostDetail(postId) {
@@ -39,7 +46,6 @@
                         this.post = res.data.post;
                         this.prevPost = res.data.prevPost;
                         this.nextPost = res.data.nextPost;
-                        this.commentList = res.data.commentList;
                     })
                     .catch(err => {
                         console.log("FETCH POSTDETAIL GET ERR.RESPONSE", err.response);
@@ -78,24 +84,6 @@
                         alert(`${err.response.status} ${err.response.statusText}`);
                     });
             },
-            resetForm() {
-                console.log("resetForm()...");
-                this.$refs.commentForm.reset();
-            },
-            submitForm() {
-                console.log("submitForm()...");
-                let formdata = new FormData(document.getElementById('comment-form'));
-                formdata.set('post', this.post.id);
-                axios.post('/api/comment/create/', formdata)
-                    .then(res => {
-                        console.log("CREATE-COMMENT POST RES", res);
-                        this.commentList.push(res.data);
-                    }).catch(err => {
-                        console.log("CREATE-COMMENT RES ERR.RESPONSE", err.response);
-                        alert(`${err.response.status} ${err.response.statusText}`);
-                    });
-                this.resetForm();
-            }
         }
     }
 

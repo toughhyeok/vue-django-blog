@@ -21,11 +21,6 @@
         cursor: pointer;
         font-style: italic;
     }
-
-    .my-comment-icon {
-        font-size: 3em;
-        color: darkgray;
-    }
 </style>
 {% endblock %}
 
@@ -64,32 +59,7 @@
                     </div>
                 </article>
                 <!-- Comments section-->
-                <div class="mb-5">
-                    <div class="card bg-light">
-                        <div class="card-body">
-                            <!-- Comment form-->
-                            <form id="comment-form" ref="commentForm" class="mb-4">
-                                <textarea name="content" class="form-control" rows="3"
-                                    placeholder="Join the discussion and leave a comment!"></textarea>
-                                <div class="d-flex justify-content-end mt-1">
-                                    <div @click="resetForm" class="btn btn-outline-secondary btn-sm me-2">RESET</div>
-                                    <div @click="submitForm" class="btn btn-primary btn-sm">SUBMIT</div>
-                                </div>
-                            </form>
-                            <!-- Comment with nested comments-->
-                            <div v-for="comment in commentList" :key="comment.id" class="d-flex mb-4">
-                                <!-- Parent comment-->
-                                <div class="flex-shrink-0 my-comment-icon">
-                                    <i class="fas fa-user-circle"></i>
-                                </div>
-                                <div class="ms-3">
-                                    <div class="fw-bold">[[ comment.update_dt ]]</div>
-                                    <div class="my-content">[[ comment.content ]]</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div id="utte-comment" class="mb-5"></div>
             </div>
             <!-- Side widgets-->
             <div class="col-lg-4">
