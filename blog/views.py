@@ -14,8 +14,11 @@ import json
 
 
 class PostDetailView(DetailView):
-    model = Post
     template_name = 'blog/post_detail.html'
+
+    def get_queryset(self):
+        return Post.objects.all().select_related(
+            'category').prefetch_related('tags')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()

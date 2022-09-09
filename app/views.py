@@ -10,7 +10,6 @@ import json
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class HomeView(ListView):
-    model = Post
     template_name = 'home.html'
     paginate_by = 3
 
@@ -23,7 +22,7 @@ class HomeView(ListView):
             qs = Post.objects.filter(tags__name__iexact=param_tag)
         else:
             qs = Post.objects.all()
-        return qs
+        return qs.select_related('category').prefetch_related('tags')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
