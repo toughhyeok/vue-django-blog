@@ -21,7 +21,7 @@ def obj_to_post(obj, flag=True):
     if obj.image:
         post['image'] = obj.image.url
     else:
-        post['image'] = 'https://via.placeholder.com/900x300/'
+        post['image'] = '/media/common/share-blog-logo.png'
 
     if obj.update_dt:
         post['update_dt'] = obj.update_dt.strftime('%Y-%m-%d %H:%M:%S')
