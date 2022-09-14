@@ -2,24 +2,24 @@ import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
 
-from django.core.wsgi import get_wsgi_application # noqa
+from django.core.wsgi import get_wsgi_application  # noqa
 
 get_wsgi_application()
 
-from blog.models import ( # noqa
+from blog.models import (  # noqa
     Category,
     Tag,
     Post
 )
 
-from bs4 import BeautifulSoup # noqa
+from bs4 import BeautifulSoup  # noqa
 
-import requests # noqa
+import requests  # noqa
 
 
 class Config:
     base_url = "https://hotamul.tistory.com"
-    link_url = "/category/project/share-blog"
+    category_url = "/category/project/share-blog"
     selector = {
         "page": "#mArticle > div.area_paging > span > a > span",
         "link": "#mArticle > div > a.link_post",
@@ -33,7 +33,7 @@ class Config:
 class Crawler:
     def __init__(self, config):
         self.base_url = config.base_url
-        self.link_url = config.link_url
+        self.category_url = config.category_url
         self.selector = config.selector
 
     def get_selector(self, key):
@@ -93,7 +93,7 @@ class Crawler:
         return BeautifulSoup(res.content, "html.parser")
 
     def get_page_nums(self):
-        html = self.get_html(self.base_url + self.link_url)
+        html = self.get_html(self.base_url + self.category_url)
         nums = [s.text for s in html.select(self.get_selector("page"))]
         if len(nums) == 3:
             return [1, ]
@@ -103,7 +103,8 @@ class Crawler:
         nums = self.get_page_nums()
         links = []
         for n in nums:
-            html = self.get_html(self.base_url + self.link_url + f"?page={n}")
+            html = self.get_html(
+                self.base_url + self.category_url + f"?page={n}")
             anchors = html.select(self.get_selector("link"))
             for a in anchors:
                 links.append(self.base_url + a["href"])
