@@ -18,7 +18,7 @@ from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -39,7 +39,6 @@ def get_secret(setting):
 
 
 SECRET_KEY = get_secret("SECRET_KEY")
-SECRET_KEY = ')+(KmeEY#_yk8TSBT>F0I?7%_*iJL*nF,&-YRnO*E>j*eo7eW8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
