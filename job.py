@@ -1,6 +1,6 @@
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.config.settings.debug")
 
 from django.core.wsgi import get_wsgi_application  # noqa
 
