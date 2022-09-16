@@ -17,33 +17,18 @@ from bs4 import BeautifulSoup  # noqa
 import requests  # noqa
 
 
-class Config:
-    base_url = "https://hotamul.tistory.com"
-    category_url = "/category/project/share-blog"
-    selector = {
-        "page": "#mArticle > div.area_paging > span > a > span",
-        "link": "#mArticle > div > a.link_post",
-        "title": "#mArticle > div.area_title > h3",
-        "category": "#mArticle > div.area_title > strong > a",
-        "tags": "#mArticle > div.area_etc > dl > dd > a",
-        "content": "#mArticle > div.area_view > div",
-    }
-
-
 class Crawler:
-    def __init__(self, config):
-        self.base_url = config.base_url
-        self.category_url = config.category_url
-        self.selector = config.selector
-
-    def __get_selector(self, key):
+    def _get_selector(self, key):
         return self.selector[key]
 
-    def __get_title(self, html):
-        return html.select_one(self.__get_selector("title")).text
+    def _get_title(self, html):
+        return html.select_one(self._get_selector("title")).text
 
-    def __get_category(self, html):
-        name = html.select_one(self.__get_selector("category")).text
+    def _get_category_impl(self, html):
+        return
+
+    def _get_category(self, html):
+        name = self._get_category_impl(html)
         if '/' in name:
             name = name.split('/')[-1]
         qs = Category.objects.filter(name__exact=name)
@@ -54,16 +39,23 @@ class Crawler:
             obj = qs.first()
         return obj
 
-    def __get_content(self, html):
-        raw = html.select_one(self.__get_selector("content"))
-        [r.decompose() for r in raw.find_all('div')]
+    def _get_content_impl(self, raw):
+        return
+
+    def _get_content(self, html):
+        raw = html.select_one(self._get_selector("content"))
+        self._get_content_impl(raw)
         content = ''
         for child in raw.children:
             content += str(child)
         return content
 
-    def __get_tags(self, html):
-        names = [t.text for t in html.select(self.__get_selector("tags"))]
+    def _get_tags_impl(self, names):
+        return
+
+    def _get_tags(self, html):
+        names = [t.text for t in html.select(self._get_selector("tags"))]
+        self._get_tags_impl(names)
         objs = []
         for n in names:
             qs = Tag.objects.filter(name__exact=n)
@@ -75,47 +67,104 @@ class Crawler:
             objs.append(obj)
         return objs
 
-    def __save_post(self, html):
-        title = self.__get_title(html)
+    def _save_post(self, html):
+        title = self._get_title(html)
         qs = Post.objects.filter(title__exact=title)
         if not qs:
             post = Post(
-                category=self.__get_category(html),
+                category=self._get_category(html),
                 description=title,
                 title=title,
-                content=self.__get_content(html),
+                content=self._get_content(html),
             )
             post.save()
-            [post.tags.add(t) for t in self.__get_tags(html)]
+            [post.tags.add(t) for t in self._get_tags(html)]
 
-    def __get_html(self, url):
+    def _get_html(self, url):
         res = requests.get(url)
         return BeautifulSoup(res.content, "html.parser")
 
+    def _get_link_list():
+        return None
+
+    def crawl(self):
+        crawl_list = self._get_link_list()
+        for url in crawl_list:
+            html = self._get_html(url)
+            self._save_post(html)
+
+
+class HotamulCrawler(Crawler):
+    base_url = "https://hotamul.tistory.com"
+    category_url = "/category/project/share-blog"
+    selector = {
+        "page": "#mArticle > div.area_paging > span > a > span",
+        "link": "#mArticle > div > a.link_post",
+        "title": "#mArticle > div.area_title > h3",
+        "category": "#mArticle > div.area_title > strong > a",
+        "tags": "#mArticle > div.area_etc > dl > dd > a",
+        "content": "#mArticle > div.area_view > div",
+    }
+
+    def _get_content_impl(self, raw):
+        [r.decompose() for r in raw.find_all('div')]
+
+    def _get_tags_impl(self, names):
+        pass
+
+    def _get_category_impl(self, html):
+        return html.select_one(self._get_selector("category")).text
+
     def __get_page_nums(self):
-        html = self.__get_html(self.base_url + self.category_url)
-        nums = [s.text for s in html.select(self.__get_selector("page"))]
+        html = self._get_html(self.base_url + self.category_url)
+        nums = [s.text for s in html.select(self._get_selector("page"))]
         if len(nums) == 3:
             return [1, ]
         return list(range(int(nums[1]), int(nums[-2])))
 
-    def __get_link_list(self):
+    def _get_link_list(self):
         nums = self.__get_page_nums()
         links = []
         for n in nums:
-            html = self.__get_html(
+            html = self._get_html(
                 self.base_url + self.category_url + f"?page={n}")
-            anchors = html.select(self.__get_selector("link"))
+            anchors = html.select(self._get_selector("link"))
             for a in anchors:
                 links.append(self.base_url + a["href"])
         return links
 
-    def crawl(self):
-        crawl_list = self.__get_link_list()
-        for url in crawl_list:
-            html = self.__get_html(url)
-            self.__save_post(html)
+
+class GiruBoyCrawler(Crawler):
+    base_url = "https://velog.io"
+    category_name = "share-blog"
+    category_url = "/@cgw7976?tag={}".format(category_name)
+    selector = {
+        "link": "#root > div > div > div:nth-child(4) > div > div > div > a",
+        "content": "#root > div > div > div > div.atom-one",
+        "title": "#root > div > div > div.head-wrapper > h1",
+        "tags": "#root > div > div > div.head-wrapper > div:nth-child(3) > a"
+    }
+
+    def _get_content_impl(self, raw):
+        pass
+
+    def _get_tags_impl(self, names):
+        names.remove(self.category_name)
+
+    def _get_category_impl(self, html):
+        return self.category_name
+
+    def _get_link_list(self):
+        html = self._get_html(self.base_url + self.category_url)
+        anchors = html.select(self._get_selector("link"))
+        return [self.base_url + a["href"] for a in anchors]
+
+
+def create_crawlers():
+    return [HotamulCrawler(), GiruBoyCrawler()]
 
 
 if __name__ == '__main__':
-    Crawler(Config).crawl()
+    crawlers = create_crawlers()
+    for c in crawlers:
+        c.crawl()
