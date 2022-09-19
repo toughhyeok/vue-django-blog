@@ -1,3 +1,20 @@
+def get_default_img(tags):
+    ret = 'share-blog'
+    default_img_list = [
+        'django',
+        'git',
+        'github',
+        'python',
+        'vuejs'    
+    ]
+    while len(tags):
+        tag_name = tags.pop().replace(".", "").lower()
+        if tag_name in default_img_list:
+            ret = tag_name
+            break
+    return "/media/common/{}-logo.png".format(ret)
+
+
 def obj_to_post(obj, flag=True):
     """
     obj의 각 속성을 serialize 해서, dict로 변환한다.
@@ -21,7 +38,7 @@ def obj_to_post(obj, flag=True):
     if obj.image:
         post['image'] = obj.image.url
     else:
-        post['image'] = '/media/common/share-blog-logo.png'
+        post['image'] = get_default_img(post['tags'])
 
     if obj.update_dt:
         post['update_dt'] = obj.update_dt.strftime('%Y-%m-%d %H:%M:%S')
