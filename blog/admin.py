@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
 from blog.models import (
     Post,
@@ -16,9 +17,10 @@ class PostAdmin(admin.ModelAdmin):
         'title',
         'description',
         'image',
+        'image_thumbnail',
         'create_dt',
         'update_dt',
-        'like'
+        'like',
     )
 
     def tag_list(self, obj):
@@ -26,6 +28,13 @@ class PostAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related('tags')
+
+    def image_thumbnail(self, obj):
+        if obj.image:
+            return mark_safe(
+                '<img src="{url}" width="70px"/>'.format(
+                    url=obj.image.url,
+                ))
 
 
 @admin.register(Category)
