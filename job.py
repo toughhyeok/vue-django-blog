@@ -1,11 +1,3 @@
-import os
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.config.settings.debug")
-
-from django.core.wsgi import get_wsgi_application  # noqa
-
-get_wsgi_application()
-
 from blog.models import (  # noqa
     Category,
     Tag,

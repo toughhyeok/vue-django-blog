@@ -1,4 +1,8 @@
-from django.contrib import admin
+from django.contrib import (
+    admin,
+    messages
+)
+from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
 from django.utils.safestring import mark_safe
 
 from blog.models import (
@@ -6,6 +10,8 @@ from blog.models import (
     Category,
     Tag,
 )
+
+from job import create_crawlers
 
 
 @admin.register(Post)
@@ -23,6 +29,18 @@ class PostAdmin(admin.ModelAdmin):
         'like',
     )
 
+    actions = ['get_the_latest_blog_posts', ]
+
+    def changelist_view(self, request, extra_context=None):
+        if 'action' in request.POST \
+                and request.POST['action'] == 'get_the_latest_blog_posts':
+            if not request.POST.getlist(ACTION_CHECKBOX_NAME):
+                post = request.POST.copy()
+                for u in Post.objects.all():
+                    post.update({ACTION_CHECKBOX_NAME: str(u.id)})
+                request._set_post(post)
+        return super(PostAdmin, self).changelist_view(request, extra_context)
+
     def tag_list(self, obj):
         return ','.join([t.name for t in obj.tags.all()])
 
@@ -35,6 +53,18 @@ class PostAdmin(admin.ModelAdmin):
                 '<img src="{url}" width="70px"/>'.format(
                     url=obj.image.url,
                 ))
+
+    def get_the_latest_blog_posts(self, request, queryset):
+        cnt = Post.objects.all().count()
+        crawlers = create_crawlers()
+        for c in crawlers:
+            c.crawl()
+        cnt = Post.objects.all().count() - cnt
+        if cnt:
+            msg = '{} posts were created successfully.'
+        else:
+            msg = 'It is already up to date.'
+        self.message_user(request, msg, messages.SUCCESS)
 
 
 @admin.register(Category)
