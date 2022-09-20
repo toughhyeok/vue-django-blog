@@ -61,7 +61,7 @@ class PostAdmin(admin.ModelAdmin):
             c.crawl()
         cnt = Post.objects.all().count() - cnt
         if cnt:
-            msg = '{} posts were created successfully.'
+            msg = '{} posts were created successfully.'.format(cnt)
         else:
             msg = 'It is already up to date.'
         self.message_user(request, msg, messages.SUCCESS)
