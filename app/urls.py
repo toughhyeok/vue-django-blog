@@ -24,7 +24,7 @@ from app.views import HomeView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
-    path('blog/', include('blog.urls')),
+    path('blog/', include('blog.urls')), #blog라는 url과 매칭이되면 blog라는 app안에 있는 urls 파일을 봐라라는 의미
     path('api/', include('api.urls')),
 ]
 
