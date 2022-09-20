@@ -55,7 +55,7 @@ class PostAdmin(admin.ModelAdmin):
                 ))
 
     def get_the_latest_blog_posts(self, request, queryset):
-        cnt = Post.objects.all().count()
+        cnt = len(queryset)
         crawlers = create_crawlers()
         for c in crawlers:
             c.crawl()
