@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} <!--템플릿 태그 : static에 있는 정적 파일을 현재 이 템플릿 파일에서 사용한다고 알려주는 것-->
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -10,14 +10,14 @@
     <meta name="author" content="" />
     <title>{% block title %}{% endblock %}</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/icons8-share-64.ico' %}" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" /> <!--css파일 경로 지정해서 불러오기-->
     {% block extra-style %}
     <style>
         [v-cloak] {
