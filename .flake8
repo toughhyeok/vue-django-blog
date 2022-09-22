@@ -4,5 +4,7 @@ exclude =
   migrations,
   __pycache__,
   manage.py,
-  settings.py,
+  base.py,
+  debug.py,
+  deploy.py,
   venv/*

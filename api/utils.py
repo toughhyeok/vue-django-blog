@@ -8,7 +8,7 @@ def get_default_img(tags):
         'git',
         'github',
         'python',
-        'vuejs'    
+        'vuejs'
     ]
     while len(tags):
         tag_name = tags.pop().replace(".", "").lower()
@@ -48,7 +48,7 @@ def obj_to_post(obj, flag=True):
     else:
         post['update_dt'] = '9999-12-31 00:00:00'
 
-    del post['_state'], post['category_id'], post['create_dt'], post['_prefetched_objects_cache'] # noqa
+    del post['_state'], post['category_id'], post['create_dt'], post['_prefetched_objects_cache']  # noqa
     if not flag:
         del post['tags'], post['update_dt'], post['description'], post['content']   # noqa
 
