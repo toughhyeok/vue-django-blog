@@ -125,6 +125,7 @@ class HotamulCrawler(Crawler):
             anchors = html.select(self._get_selector("link"))
             for a in anchors:
                 links.append(self.base_url + a["href"])
+        links.reverse()
         return links
 
 
