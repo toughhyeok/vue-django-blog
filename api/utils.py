@@ -1,3 +1,6 @@
+from copy import deepcopy
+
+
 def get_default_img(tags):
     ret = 'share-blog'
     default_img_list = [
@@ -38,7 +41,7 @@ def obj_to_post(obj, flag=True):
     if obj.image:
         post['image'] = obj.image.url
     else:
-        post['image'] = get_default_img(post['tags'])
+        post['image'] = get_default_img(deepcopy(post['tags']))
 
     if obj.update_dt:
         post['update_dt'] = obj.update_dt.strftime('%Y-%m-%d %H:%M:%S')

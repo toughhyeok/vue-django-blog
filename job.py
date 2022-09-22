@@ -18,6 +18,8 @@ import requests  # noqa
 
 
 class Crawler:
+    header = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"} # noqa
+
     def _get_selector(self, key):
         return self.selector[key]
 
@@ -81,7 +83,7 @@ class Crawler:
             [post.tags.add(t) for t in self._get_tags(html)]
 
     def _get_html(self, url):
-        res = requests.get(url)
+        res = requests.get(url, headers=self.header)
         return BeautifulSoup(res.content, "html.parser")
 
     def _get_link_list():
@@ -131,6 +133,7 @@ class HotamulCrawler(Crawler):
             anchors = html.select(self._get_selector("link"))
             for a in anchors:
                 links.append(self.base_url + a["href"])
+        links.reverse()
         return links
 
 
