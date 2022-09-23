@@ -10,7 +10,7 @@ import requests  # noqa
 
 
 class Crawler:
-    header = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"} # noqa
+    header = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"}  # noqa
 
     def _get_selector(self, key):
         return self.selector[key]
@@ -21,7 +21,7 @@ class Crawler:
     def _get_category_impl(self, html):
         return
 
-    def _get_category(self, html):
+    def _get_category_obj(self, html):
         name = self._get_category_impl(html)
         if '/' in name:
             name = name.split('/')[-1]
@@ -47,32 +47,38 @@ class Crawler:
     def _get_tags_impl(self, names):
         return
 
-    def _get_tags(self, html):
-        names = [t.text for t in html.select(self._get_selector("tags"))]
-        self._get_tags_impl(names)
-        objs = []
-        for n in names:
-            qs = Tag.objects.filter(name__exact=n)
-            if not qs:
-                obj = Tag(name=n)
-                obj.save()
-            else:
-                obj = qs.first()
-            objs.append(obj)
-        return objs
+    def _get_tag_obj(self, name):
+        qs = Tag.objects.filter(name__exact=name)
+        if not qs:
+            obj = Tag(name=name)
+            obj.save()
+        else:
+            obj = qs.first()
+        return obj
+
+    def _get_tag_names(self, html):
+        return [t.text for t in html.select(self._get_selector("tags"))]
 
     def _save_post(self, html):
         title = self._get_title(html)
         qs = Post.objects.filter(title__exact=title)
+        tags = self._get_tag_names(html)
+        content = self._get_content(html)
         if not qs:
             post = Post(
-                category=self._get_category(html),
+                category=self._get_category_obj(html),
                 description=title,
                 title=title,
-                content=self._get_content(html),
+                content=content,
             )
             post.save()
-            [post.tags.add(t) for t in self._get_tags(html)]
+            [post.tags.add(self._get_tag_obj(t)) for t in tags]
+        else:
+            post = qs.first()
+            if post.content != content:
+                qs.update(content=content)
+            diff_tags = set(tags) ^ set([tag.name for tag in post.tags.all()])
+            [post.tags.add(self._get_tag_obj(t)) for t in diff_tags]
 
     def _get_html(self, url):
         res = requests.get(url, headers=self.header)
@@ -152,7 +158,9 @@ class GiruBoyCrawler(Crawler):
     def _get_link_list(self):
         html = self._get_html(self.base_url + self.category_url)
         anchors = html.select(self._get_selector("link"))
-        return [self.base_url + a["href"] for a in anchors]
+        links = [self.base_url + a["href"] for a in anchors]
+        links.reverse()
+        return links
 
 
 def create_crawlers():
