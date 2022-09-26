@@ -22,6 +22,7 @@ class PostAdmin(admin.ModelAdmin):
         'tag_list',
         'title',
         'description',
+        'url',
         'image',
         'image_thumbnail',
         'create_dt',
