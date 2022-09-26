@@ -8,7 +8,7 @@ class Post(models.Model):
     description = models.CharField(
         'DESCRIPTION', max_length=100, blank=True,
         help_text='simple one-line text.')
-    title = models.CharField('TITLE', max_length=50)
+    title = models.CharField('TITLE', max_length=100)
     url = models.URLField('URL', null=True)
     image = models.ImageField(
         'IMAGE', upload_to='blog/%Y/%m/', blank=True, null=True)
