@@ -54,7 +54,7 @@ class PostAdmin(admin.ModelAdmin):
                 '<img src="{url}" width="70px"/>'.format(
                     url=obj.image.url,
                 ))
-    
+
     def original_url(self, obj):
         if obj.url:
             return mark_safe(
