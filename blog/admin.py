@@ -9,6 +9,7 @@ from blog.models import (
     Post,
     Category,
     Tag,
+    UserName
 )
 
 from job import create_crawlers
@@ -19,6 +20,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'category',
+        'user',
         'tag_list',
         'title',
         'description',
@@ -83,4 +85,9 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+
+
+@admin.register(UserName)
+class UserName(admin.ModelAdmin):
     list_display = ('id', 'name')
