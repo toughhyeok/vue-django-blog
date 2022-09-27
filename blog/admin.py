@@ -22,7 +22,7 @@ class PostAdmin(admin.ModelAdmin):
         'tag_list',
         'title',
         'description',
-        'url',
+        'original_url',
         'image',
         'image_thumbnail',
         'create_dt',
@@ -54,6 +54,14 @@ class PostAdmin(admin.ModelAdmin):
                 '<img src="{url}" width="70px"/>'.format(
                     url=obj.image.url,
                 ))
+    
+    def original_url(self, obj):
+        if obj.url:
+            return mark_safe(
+                '<a href={url}>{url}</a>'.format(
+                    url=obj.url,
+                )
+            )
 
     def get_the_latest_blog_posts(self, request, queryset):
         cnt = len(queryset)
