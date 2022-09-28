@@ -79,26 +79,31 @@
 
 {% block footer %}
 <!-- Footer-->
-<footer class="footer py-4">
+<footer class="footer pt-0 btn-dark">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-4 text-lg-start">
-                <a class="link-dark text-decoration-none">최길우 </a>
-                <a class="link-dark text-decoration-none">cms6097@naver.com </a>
-                <a class="link-dark text-decoration-none" href="https://github.com/toughhyeok/vue-django-blog/tree/gilwoochoi" target="_blank">Github | </a>
-                <a class="link-dark text-decoration-none" href="https://velog.io/@cgw7976" target="_blank">Blog</a>
-                <p>2022. Junhyeok Park all rights reserved. </p> 
+        <div class="row">
+            <span class="row-cols-lg-4 text-lg-start navbar-brand fw-bold link-warning">SHARE BLOG</span>
+
+            <div class="row-cols-lg-4 text-lg-start mt-1">
+                <span class="text-decoration-none me-3">hotamul  |</span>
+                <span class="text-decoration-none me-3" href="#!">hotamul9@gmail.com</span>
+                <a class="text-decoration-none me-3 link-light" href="https://github.com/toughhyeok/vue-django-blog/" target="_blank">Github</a>
+                <a class="text-decoration-none me-3 link-light" href="https://hotamul.tistory.com/" target="_blank">Blog</a>
             </div>
-            <div class="col-lg-4 text-lg-start">
-                <a class="link-dark text-decoration-none">박준혁 </a>
-                <a class="link-dark text-decoration-none">cms6097@naver.com </a>
-                <a class="link-dark text-decoration-none" href="https://github.com/toughhyeok/vue-django-blog/tree/dev-main" target="_blank">Github </a>
-                <a class="link-dark text-decoration-none" href="https://hotamul.tistory.com/" target="_blank">Blog</a>
+
+            <div class="row-cols-lg-4 text-lg-start">
+                <span class="text-decoration-none me-3">giruboy |</span>
+                <span class="text-decoration-none me-3" href="#!">cms6097@naver.com</span>
+                <a class="text-decoration-none me-3 link-light" href="https://github.com/giruboy" target="_blank">Github</a>
+                <a class="text-decoration-none me-3 link-light" href="https://velog.io/@cgw7976" target="_blank">Blog</a>
             </div>
+            <div class="col-lg-4 text-lg-start mt-2">2022. Junhyeok Park all rights reserved.</div>
         </div>
     </div>
 </footer>
+    
 
+</footer>
 {% endblock %}
 {% block extra-script %}
 {% include 'include/post_list_vue.html' %}
