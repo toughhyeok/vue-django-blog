@@ -9,6 +9,7 @@ from blog.models import (
     Post,
     Category,
     Tag,
+    UserName
 )
 
 from job import create_crawlers
@@ -19,9 +20,11 @@ class PostAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'category',
+        'user',
         'tag_list',
         'title',
         'description',
+        'original_url',
         'image',
         'image_thumbnail',
         'create_dt',
@@ -54,6 +57,14 @@ class PostAdmin(admin.ModelAdmin):
                     url=obj.image.url,
                 ))
 
+    def original_url(self, obj):
+        if obj.url:
+            return mark_safe(
+                '<a href={url}>{url}</a>'.format(
+                    url=obj.url,
+                )
+            )
+
     def get_the_latest_blog_posts(self, request, queryset):
         cnt = len(queryset)
         crawlers = create_crawlers()
@@ -74,4 +85,9 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+
+
+@admin.register(UserName)
+class UserName(admin.ModelAdmin):
     list_display = ('id', 'name')
