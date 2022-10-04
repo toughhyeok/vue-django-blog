@@ -4036,6 +4036,7 @@ textarea.form-control-lg {
   justify-content: space-between;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  background-color: ;
 }
 .navbar > .container,
 .navbar > .container-fluid,
@@ -11340,9 +11341,9 @@ p {
 }
 
 #mainNav {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  background-color: #212529;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: #455363;
 }
 #mainNav .navbar-toggler {
   padding: 0.75rem;
@@ -11376,7 +11377,7 @@ p {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
     border: none;
-    background-color: transparent;
+    background-color: #455363;
     transition: padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
   }
   #mainNav .navbar-brand {
@@ -11388,8 +11389,8 @@ p {
     transition: height 0.3s ease-in-out;
   }
   #mainNav.navbar-shrink {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
     background-color: #455363;
   }
   #mainNav.navbar-shrink .navbar-brand {
