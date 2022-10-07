@@ -15,7 +15,7 @@ from blog.models import (
 
 
 class ApiPostListView(BaseListView):
-    paginate_by = 3
+    paginate_by = 6
 
     def get_queryset(self):
         param_cate = self.request.GET.get('category')

@@ -11,7 +11,7 @@ import json
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class HomeView(ListView):
     template_name = 'home.html'
-    paginate_by = 3
+    paginate_by = 6
 
     def get_queryset(self):
         param_cate = self.request.GET.get('category')
