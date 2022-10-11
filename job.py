@@ -1,7 +1,8 @@
 from blog.models import (  # noqa
     Category,
     Tag,
-    Post
+    Post,
+    UserName
 )
 
 from bs4 import BeautifulSoup  # noqa
@@ -59,7 +60,16 @@ class Crawler:
     def _get_tag_names(self, html):
         return [t.text for t in html.select(self._get_selector("tags"))]
 
-    def _save_post(self, html):
+    def _get_username_obj(self):
+        qs = UserName.objects.filter(name__exact=self.name)
+        if not qs:
+            obj = UserName(name=self.name)
+            obj.save()
+        else:
+            obj = qs.first()
+        return obj
+
+    def _save_post(self, html, url):
         title = self._get_title(html)
         qs = Post.objects.filter(title__exact=title)
         tags = self._get_tag_names(html)
@@ -70,6 +80,8 @@ class Crawler:
                 description=title,
                 title=title,
                 content=content,
+                url=url,
+                user=self._get_username_obj()
             )
             post.save()
             [post.tags.add(self._get_tag_obj(t)) for t in tags]
@@ -91,10 +103,11 @@ class Crawler:
         crawl_list = self._get_link_list()
         for url in crawl_list:
             html = self._get_html(url)
-            self._save_post(html)
+            self._save_post(html, url)
 
 
 class HotamulCrawler(Crawler):
+    name = "hotamul"
     base_url = "https://hotamul.tistory.com"
     category_url = "/category/project/share-blog"
     selector = {
@@ -136,6 +149,7 @@ class HotamulCrawler(Crawler):
 
 
 class GiruBoyCrawler(Crawler):
+    name = "giruboy"
     base_url = "https://velog.io"
     category_name = "share-blog"
     category_url = "/@cgw7976?tag={}".format(category_name)
