@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}post_detail.html{% endblock %}
+{% block title %}{{post.title}}{% endblock %}
 
 {% block extra-style %}
 {{ block.super }}
@@ -114,5 +114,9 @@
 {% endblock %}
 
 {% block extra-script %}
+<!-- code highlight-->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 {% include 'include/post_detail_vue.html' %}
 {% endblock %}
