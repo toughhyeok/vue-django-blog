@@ -96,8 +96,12 @@ class Crawler:
         res = requests.get(url, headers=self.header)
         return BeautifulSoup(res.content, "html.parser")
 
-    def _get_link_list():
-        return None
+    def _get_link_list(self):
+        html = self._get_html(self.base_url + self.category_url)
+        anchors = html.select(self._get_selector("link"))
+        links = [self.base_url + a["href"] for a in anchors]
+        links.reverse()
+        return links
 
     def crawl(self):
         crawl_list = self._get_link_list()
@@ -128,25 +132,6 @@ class HotamulCrawler(Crawler):
     def _get_category_impl(self, html):
         return html.select_one(self._get_selector("category")).text
 
-    def __get_page_nums(self):
-        html = self._get_html(self.base_url + self.category_url)
-        nums = [s.text for s in html.select(self._get_selector("page"))]
-        if len(nums) == 3:
-            return [1, ]
-        return list(range(int(nums[1]), int(nums[-2])))
-
-    def _get_link_list(self):
-        nums = self.__get_page_nums()
-        links = []
-        for n in nums:
-            html = self._get_html(
-                self.base_url + self.category_url + f"?page={n}")
-            anchors = html.select(self._get_selector("link"))
-            for a in anchors:
-                links.append(self.base_url + a["href"])
-        links.reverse()
-        return links
-
 
 class GiruBoyCrawler(Crawler):
     name = "giruboy"
@@ -168,13 +153,6 @@ class GiruBoyCrawler(Crawler):
 
     def _get_category_impl(self, html):
         return self.category_name
-
-    def _get_link_list(self):
-        html = self._get_html(self.base_url + self.category_url)
-        anchors = html.select(self._get_selector("link"))
-        links = [self.base_url + a["href"] for a in anchors]
-        links.reverse()
-        return links
 
 
 def create_crawlers():
