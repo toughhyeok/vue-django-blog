@@ -11804,3 +11804,26 @@ section#contact form#contactForm :-ms-input-placeholder {
   position: sticky;
   top: 50px;
 }
+
+#floating-bottom {
+  background-color: #fff;
+  border-top: 1px solid #c2c2c2;
+  height: 36px;
+  position: sticky;
+  bottom: 0;
+  align-items: center;
+  display: flex;
+}
+
+.goToComment {
+  display: inline-block;
+  color: gray;
+  align-items: center;
+}
+
+.goToTop {
+  display: inline-block;
+  color: gray;
+  align-items: center;
+  margin-left: auto;
+}
