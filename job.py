@@ -13,6 +13,9 @@ import requests  # noqa
 class Crawler:
     header = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"}  # noqa
 
+    def __init__(self, category_name) -> None:
+        self.category_name = category_name
+
     def _get_selector(self, key):
         return self.selector[key]
 
@@ -123,6 +126,10 @@ class HotamulCrawler(Crawler):
         "content": "#mArticle > div.area_view > div",
     }
 
+    def __init__(self, category_name) -> None:
+        self.category_url = "/category/project/{}".format(category_name)
+        super().__init__(category_name)
+
     def _get_content_impl(self, raw):
         [r.decompose() for r in raw.find_all('div')]
 
@@ -136,14 +143,16 @@ class HotamulCrawler(Crawler):
 class GiruBoyCrawler(Crawler):
     name = "giruboy"
     base_url = "https://velog.io"
-    category_name = "share-blog"
-    category_url = "/@cgw7976?tag={}".format(category_name)
     selector = {
         "link": "#root > div > div > div:nth-child(4) > div > div > div > a",
         "content": "#root > div > div > div > div.atom-one",
         "title": "#root > div > div > div.head-wrapper > h1",
         "tags": "#root > div > div > div.head-wrapper > div:nth-child(3) > a"
     }
+
+    def __init__(self, category_name) -> None:
+        self.category_url = "/@cgw7976?tag={}".format(category_name)
+        super().__init__(category_name)
 
     def _get_content_impl(self, raw):
         pass
@@ -155,11 +164,5 @@ class GiruBoyCrawler(Crawler):
         return self.category_name
 
 
-def create_crawlers():
-    return [HotamulCrawler(), GiruBoyCrawler()]
-
-
-if __name__ == '__main__':
-    crawlers = create_crawlers()
-    for c in crawlers:
-        c.crawl()
+def create_crawlers(category_name):
+    return [HotamulCrawler(category_name), GiruBoyCrawler(category_name)]
