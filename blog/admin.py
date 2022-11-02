@@ -32,11 +32,15 @@ class PostAdmin(admin.ModelAdmin):
         'like',
     )
 
-    actions = ['get_the_latest_blog_posts', ]
+    actions = ['SHARE_BLOG_get_the_latest_blog_posts',
+               'MEVN_STUDY_get_the_latest_blog_posts']
 
     def changelist_view(self, request, extra_context=None):
         if 'action' in request.POST \
-                and request.POST['action'] == 'get_the_latest_blog_posts':
+                and (request.POST['action'] ==
+                     'SHARE_BLOG_get_the_latest_blog_posts'
+                     or request.POST['action'] ==
+                     'MEVN_STUDY_get_the_latest_blog_posts'):
             if not request.POST.getlist(ACTION_CHECKBOX_NAME):
                 post = request.POST.copy()
                 for u in Post.objects.all():
@@ -65,9 +69,21 @@ class PostAdmin(admin.ModelAdmin):
                 )
             )
 
-    def get_the_latest_blog_posts(self, request, queryset):
+    def SHARE_BLOG_get_the_latest_blog_posts(self, request, queryset):
         cnt = len(queryset)
-        crawlers = create_crawlers()
+        crawlers = create_crawlers("share-blog")
+        for c in crawlers:
+            c.crawl()
+        cnt = Post.objects.all().count() - cnt
+        if cnt:
+            msg = '{} posts were created successfully.'.format(cnt)
+        else:
+            msg = 'It is already up to date.'
+        self.message_user(request, msg, messages.SUCCESS)
+
+    def MEVN_STUDY_get_the_latest_blog_posts(self, request, queryset):
+        cnt = len(queryset)
+        crawlers = create_crawlers("mevn-study")
         for c in crawlers:
             c.crawl()
         cnt = Post.objects.all().count() - cnt
