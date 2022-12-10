@@ -51,4 +51,16 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 
+     // scroll to comment
+     const location = document.querySelector('#utte-comment').offsetTop;
+     const goComment = document.querySelector('.goToComment');
+     goComment.onclick = function() {
+         window.scrollTo({top: location, behavior: 'smooth'});
+     };
+ 
+     // Scroll to Top
+     const goTop = document.querySelector('.goToTop');
+     goTop.onclick = function() {
+         window.scrollTo({top: 0, behavior: 'smooth'});
+     };
 });
