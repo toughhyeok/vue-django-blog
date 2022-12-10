@@ -202,7 +202,9 @@ dd {
 }
 
 blockquote {
-  margin: 0 0 1rem;
+  padding: 0 1em;
+  color: #8b949e;
+  border-left: 0.25em solid #ccc;
 }
 
 b,
@@ -11798,4 +11800,11 @@ section#contact form#contactForm :-ms-input-placeholder {
   color: gray;
   align-items: center;
   margin-left: auto;
+}
+
+.sidewidget {
+  display: inline-block;
+  height: 649px;
+  position: sticky;
+  top: 65px;
 }

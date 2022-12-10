@@ -72,20 +72,20 @@
                 <div id="utte-comment" class="mb-5"></div>
             </div>
             <!-- Side widgets-->
-            <div class="col-lg-4">
+            <div class="col-lg-4 sidewidget">
                 <!-- Categories widget-->
                 <div class="card mb-4">
                     <div class="card-header">Prev Post</div>
-                    <div class="card-body">
-                        <h5 class="text-primary my-link" @click="fetchPostDetail(prevPost.id)">[[ prevPost.title ]]</h5>
-                    </div>
+                    <a class="card-body" :href=`/blog/post/${prevPost.id}#post` style="text-decoration-line: none;">
+                        <h5 class="text-primary my-link">[[ prevPost.title ]]</h5>
+                    </a>
                 </div>
                 <!-- Categories widget-->
                 <div class="card mb-4">
                     <div class="card-header">Next Post</div>
-                    <div class="card-body">
-                        <h5 class="text-primary my-link" @click="fetchPostDetail(nextPost.id)">[[ nextPost.title ]]</h5>
-                    </div>
+                    <a class="card-body" :href=`/blog/post/${nextPost.id}#post` style="text-decoration-line: none;">
+                        <h5 class="text-primary my-link">[[ nextPost.title ]]</h5>
+                    </a>
                 </div>
                 <!-- Categories widget-->
                 <div class="card mb-4">
