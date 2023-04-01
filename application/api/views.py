@@ -21,11 +21,15 @@ class ApiPostListView(BaseListView):
         param_cate = self.request.GET.get('category')
         param_tag = self.request.GET.get('tags')
         if param_cate:
-            qs = Post.objects.filter(category__name__iexact=param_cate)
+            qs = Post.objects.filter(
+                category__name__iexact=param_cate
+                ).order_by('-user', 'create_dt')
         elif param_tag:
-            qs = Post.objects.filter(tags__name__iexact=param_tag)
+            qs = Post.objects.filter(
+                tags__name__iexact=param_tag
+                ).order_by('-user', 'create_dt')
         else:
-            qs = Post.objects.all()
+            qs = Post.objects.all().order_by('-user', 'create_dt')
         return qs.select_related('category').prefetch_related('tags')
 
     def render_to_response(self, context, **response_kwargs):
@@ -47,7 +51,8 @@ class ApiPostListView(BaseListView):
 class ApiPostDetailView(BaseDetailView):
 
     def get_queryset(self):
-        return Post.objects.all().select_related(
+        return Post.objects.all().order_by(
+            '-user', 'create_dt').select_related(
             'category').prefetch_related('tags')
 
     def render_to_response(self, context, **response_kwargs):
