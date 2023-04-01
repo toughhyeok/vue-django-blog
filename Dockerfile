@@ -24,16 +24,11 @@ RUN python -m venv /venv && \
     rm -rf /tmp && \
     apk del .tmp-build-deps
 
-RUN adduser \
-        --disabled-password \
-        --no-create-home \
-        django-user && \
-    mkdir -p /var/www/share-blog/static/media && \
-    chown -R django-user:django-user /var /application/log && \
-    chmod -R 755 /var /application/log
+RUN mkdir -p /var/www/share-blog/static/media && \
+    chmod -R 755 /var /application/db
 
 COPY ./override/base.py /venv/lib64/python3.7/site-packages/django/db/backends/sqlite3/base.py
 
 ENV PATH="/venv/bin:$PATH"
 
-USER django-user
+USER root
