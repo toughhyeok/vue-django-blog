@@ -18,7 +18,7 @@ class PostDetailView(DetailView):
 
     def get_queryset(self):
         return Post.objects.all().order_by(
-            '-user', 'create_dt').select_related(
+            '-user', '-create_dt').select_related(
             'category').prefetch_related('tags')
 
     def get_context_data(self, **kwargs):

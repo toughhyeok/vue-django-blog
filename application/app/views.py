@@ -19,13 +19,13 @@ class HomeView(ListView):
         if param_cate:
             qs = Post.objects.filter(
                 category__name__iexact=param_cate).order_by(
-                '-user', 'create_dt')
+                '-user', '-create_dt')
         elif param_tag:
             qs = Post.objects.filter(
                 tags__name__iexact=param_tag).order_by(
-                '-user', 'create_dt')
+                '-user', '-create_dt')
         else:
-            qs = Post.objects.all().order_by('-user', 'create_dt')
+            qs = Post.objects.all().order_by('-user', '-create_dt')
         return qs.select_related('category').prefetch_related('tags')
 
     def get_context_data(self, *, object_list=None, **kwargs):
